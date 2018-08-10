@@ -1,13 +1,13 @@
-#!/usr/bin/python2.7
+# #!/usr/bin/python2.7
 
-from Tkinter import *
-from ttk import *
-import Tkinter as tk
-import ttk
+from tkinter import *
+from tkinter.ttk import *
+import tkinter as tk
+import tkinter.ttk
 
 from cryptography.fernet import Fernet
 import socket
-import thread
+import _thread
 
 class ChatClient(Frame):
 
@@ -30,11 +30,11 @@ class ChatClient(Frame):
     self.root.title("CryptChat")
     ScreenSizeX = self.root.winfo_screenwidth()
     ScreenSizeY = self.root.winfo_screenheight()
-    self.FrameSizeX  = 725
-    self.FrameSizeY  = 480
-    FramePosX   = (ScreenSizeX - self.FrameSizeX)/2
-    FramePosY   = (ScreenSizeY - self.FrameSizeY)/2
-    self.root.geometry("%sx%s+%s+%s" % (self.FrameSizeX,self.FrameSizeY,FramePosX,FramePosY))
+    self.FrameSizeX  = 825
+    self.FrameSizeY  = 540
+    FramePosX   = int((ScreenSizeX - self.FrameSizeX)/2)
+    FramePosY   = int((ScreenSizeY - self.FrameSizeY)/2)
+    self.root.geometry("%sx%s+%s+%s" % (self.FrameSizeX, self.FrameSizeY, FramePosX, FramePosY))
     self.root.resizable(width=False, height=False)
     
     padX = 10
@@ -108,17 +108,17 @@ class ChatClient(Frame):
         self.serverSoc.bind(serveraddr)
         self.serverSoc.listen(1)
         self.setStatus("Server listening on %s:%s" % serveraddr)
-        thread.start_new_thread(self.listenClients,())
+        _thread.start_new_thread(self.listenClients,())
         self.serverStatus = 1
     except:
         self.setStatus("Error setting up server")
-    
+        
   def listenClients(self):
     while 1:
       clientsoc, clientaddr = self.serverSoc.accept()
       self.setStatus("Client connected from %s:%s" % clientaddr)
       self.addClient(clientsoc, clientaddr)
-      thread.start_new_thread(self.handleClientMessages, (clientsoc, clientaddr))
+      _thread.start_new_thread(self.handleClientMessages, (clientsoc, clientaddr))
     self.serverSoc.close()
   
   def handleAddClient(self):
@@ -131,7 +131,7 @@ class ChatClient(Frame):
         clientsoc.connect(clientaddr)
         self.setStatus("Connected to client on %s:%s" % clientaddr)
         self.addClient(clientsoc, clientaddr)
-        thread.start_new_thread(self.handleClientMessages, (clientsoc, clientaddr))
+        _thread.start_new_thread(self.handleClientMessages, (clientsoc, clientaddr))
     except:
         self.setStatus("Error connecting to client")
 
@@ -184,14 +184,14 @@ class ChatClient(Frame):
     self.friends.insert(self.counter,"%s:%s" % clientaddr)
   
   def removeClient(self, clientsoc, clientaddr):
-      print self.allClients
+      print (self.allClients)
       self.friends.delete(self.allClients[clientsoc])
       del self.allClients[clientsoc]
-      print self.allClients
+      print (self.allClients)
   
   def setStatus(self, msg):
     self.statusLabel.config(text=msg)
-    print msg
+    print (msg)
       
 def main():  
     root = Tk()
