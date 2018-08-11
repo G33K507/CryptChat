@@ -28,8 +28,10 @@ class ChatClient(Frame):
     ip = s.getsockname()[0]
 
     self.root.title("CryptChat")
-    ScreenSizeX = self.root.winfo_screenwidth()
-    ScreenSizeY = self.root.winfo_screenheight()
+    # ScreenSizeX = self.root.winfo_screenwidth()
+    # ScreenSizeY = self.root.winfo_screenheight()
+    ScreenSizeX = 1920
+    ScreenSizeY = 1080
     self.FrameSizeX  = 825
     self.FrameSizeY  = 540
     FramePosX   = int((ScreenSizeX - self.FrameSizeX)/2)
