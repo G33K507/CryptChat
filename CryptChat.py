@@ -28,8 +28,6 @@ class ChatClient(Frame):
     ip = s.getsockname()[0]
 
     self.root.title("CryptChat")
-    # ScreenSizeX = self.root.winfo_screenwidth()
-    # ScreenSizeY = self.root.winfo_screenheight()
     ScreenSizeX = 1920
     ScreenSizeY = 1080
     self.FrameSizeX  = 825
@@ -162,6 +160,7 @@ class ChatClient(Frame):
       return
     key = '4Li4zGqWckAsENtH7B0HlKMwXvTLbaJ7Xq-QuKmTbhM='
     cipher_suite = Fernet(key)
+    msg = msg.encode()
     msg = cipher_suite.encrypt(msg)
     self.addChat("Me", msg)
     for client in self.allClients.keys():
@@ -175,6 +174,7 @@ class ChatClient(Frame):
     key = '4Li4zGqWckAsENtH7B0HlKMwXvTLbaJ7Xq-QuKmTbhM='
     cipher_suite = Fernet(key)
     msg = cipher_suite.decrypt(msg)
+    msg = msg.decode('utf-8')
     self.receivedChats.insert("end",client+"#> "+msg+"\n")
     self.receivedChats.config(state=DISABLED)
     
